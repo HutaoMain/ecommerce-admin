@@ -1,0 +1,19 @@
+.categorypage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categorypage-container {
+  max-width: 1240px;
+  width: 100%;
+}
+
+.category-actionbtn {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,0 +1,43 @@
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #89cb45;
+  color: #fff;
+  padding: 20px 10px;
+  width: 100%;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  max-width: 1240px;
+  width: 100%;
+}
+
+.navbar-link {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar-profile {
+  padding-left: 30px;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+.navbar-logoutbtn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
