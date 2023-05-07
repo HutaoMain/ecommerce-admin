@@ -1,0 +1,53 @@
+.addcategory {
+  position: relative;
+}
+
+.receipt-input-image {
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  width: 300px;
+  padding: 10px;
+  border: 1px dashed black;
+  margin-top: 10px;
+}
+
+.addcategory-closebtn {
+  position: absolute;
+  top: -50px;
+  right: -20px;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  background-color: transparent;
+}
+
+.addcategory-img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.addcategory-itemlist {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.addcategory-input {
+  width: 310px;
+  height: 35px;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.addcategory-submitbtn {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #37c180;
+  color: #ffff;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+}

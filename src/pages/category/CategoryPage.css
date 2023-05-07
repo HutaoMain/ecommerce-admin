@@ -1,19 +1,43 @@
 .categorypage {
-  display: flex;
-  align-items: center;
+  display: grid;
   justify-content: center;
 }
 
+.categorypage-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 0px;
+}
+
+.categorypage-addcategory {
+  padding: 20px;
+  font-size: 20px;
+  width: 30%;
+  box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  margin: 20px 0px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+}
+
 .categorypage-container {
-  max-width: 1240px;
-  width: 100%;
+  width: 1240px;
 }
 
 .category-actionbtn {
-  padding: 10px;
+  padding: 10px 20px;
   margin: 5px;
   border: none;
   color: white;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.category-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }

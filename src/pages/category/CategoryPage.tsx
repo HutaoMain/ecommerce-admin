@@ -7,8 +7,24 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import Confirmation from "../../components/confirmationModal/Confirmation";
+import { BiCategory } from "react-icons/bi";
+import { AiOutlineFileAdd } from "react-icons/ai";
+import AddCategory from "../../components/addCategory/AddCategory";
 
 const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "30px",
+    padding: "50px",
+  },
+};
+
+const customStyleAddCategory = {
   content: {
     top: "50%",
     left: "50%",
@@ -26,6 +42,7 @@ Modal.setAppElement("#root");
 const CategoryPage = () => {
   const [list, setList] = useState<categoryInterface[]>([]);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenAddCategory, setIsOpenAddCategory] = useState<boolean>(false);
   const [paramsId, setParamsId] = useState<string>("");
 
   const { data } = useQuery<categoryInterface[]>({
@@ -75,14 +92,14 @@ const CategoryPage = () => {
       headerName: "Image",
       headerAlign: "center",
       align: "center",
-      width: 130,
+      width: 250,
       renderCell: (params) => {
         return (
           <>
             <img
               src={params.row.imageUrl}
               alt="category"
-              className="categoryImg"
+              className="category-img"
             />
           </>
         );
@@ -131,11 +148,28 @@ const CategoryPage = () => {
     },
   ];
 
+  const toggleAddCategory = () => {
+    setIsOpenAddCategory(!isOpenAddCategory);
+  };
+
   return (
     <div className="categorypage">
+      <div className="categorypage-title">
+        <BiCategory style={{ fontSize: "25px" }} /> <h2>Categories</h2>
+      </div>
+      <div className="categorypage-addcategory" onClick={toggleAddCategory}>
+        Add Category <AiOutlineFileAdd />
+      </div>
       <section className="categorypage-container">
         <DataGrid rows={data ?? []} columns={categoryColumn} />
       </section>
+      <Modal
+        isOpen={isOpenAddCategory}
+        onRequestClose={toggleAddCategory}
+        style={customStyleAddCategory}
+      >
+        <AddCategory toggleAddCategory={toggleAddCategory} />
+      </Modal>
     </div>
   );
 };
