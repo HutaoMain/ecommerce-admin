@@ -2,7 +2,6 @@ import "./CategoryPage.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { categoryInterface } from "../../types/Types";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
@@ -10,6 +9,7 @@ import Confirmation from "../../components/confirmationModal/Confirmation";
 import { BiCategory } from "react-icons/bi";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import AddCategory from "../../components/addCategory/AddCategory";
+import UpdateCategory from "../../components/updateCategory/UpdateCategory";
 
 const customStyles = {
   content: {
@@ -42,6 +42,8 @@ Modal.setAppElement("#root");
 const CategoryPage = () => {
   const [list, setList] = useState<categoryInterface[]>([]);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenUpdateCategory, setIsOpenUpdateCategory] =
+    useState<boolean>(false);
   const [isOpenAddCategory, setIsOpenAddCategory] = useState<boolean>(false);
   const [paramsId, setParamsId] = useState<string>("");
 
@@ -60,6 +62,11 @@ const CategoryPage = () => {
   const toggleModalCategory = (id: any) => {
     setParamsId(id);
     setIsOpenModal(!isOpenModal);
+  };
+
+  const toggleModalUpdateCategory = (id: any) => {
+    setParamsId(id);
+    setIsOpenUpdateCategory(!isOpenUpdateCategory);
   };
 
   const handleDelete = async (id: any) => {
@@ -114,14 +121,15 @@ const CategoryPage = () => {
       renderCell: (params) => {
         return (
           <div>
-            <Link to={`${params.row.id}`} style={{ textDecoration: "none" }}>
-              <button
-                className="category-actionbtn"
-                style={{ backgroundColor: "blue" }}
-              >
-                Update
-              </button>
-            </Link>
+            {/* <Link to={`${params.row.id}`} style={{ textDecoration: "none" }}> */}
+            <button
+              className="category-actionbtn"
+              style={{ backgroundColor: "blue" }}
+              onClick={() => toggleModalUpdateCategory(params.row.id)}
+            >
+              Update
+            </button>
+            {/* </Link> */}
             <button
               className="category-actionbtn"
               style={{ backgroundColor: "red" }}
@@ -169,6 +177,16 @@ const CategoryPage = () => {
         style={customStyleAddCategory}
       >
         <AddCategory toggleAddCategory={toggleAddCategory} />
+      </Modal>
+      <Modal
+        isOpen={isOpenUpdateCategory}
+        onRequestClose={toggleModalUpdateCategory}
+        style={customStyleAddCategory}
+      >
+        <UpdateCategory
+          toggleModalUpdateCategory={toggleModalUpdateCategory}
+          paramsId={paramsId}
+        />
       </Modal>
     </div>
   );
