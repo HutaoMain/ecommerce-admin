@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({ user }: any) => {
   const { data } = useQuery<UserInterface>({
-    queryKey: ["getUserByEmailApp"],
+    queryKey: ["getUserByEmailNavbar"],
     queryFn: () =>
       axios
         .get(`${import.meta.env.VITE_APP_API_URL}/api/user/${user}`)
@@ -23,7 +23,7 @@ const Navbar = ({ user }: any) => {
       alert("you are not allowed to login");
     }
     console.log("navbar");
-  });
+  }, [user]);
 
   return (
     <nav className="navbar">

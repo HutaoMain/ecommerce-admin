@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import { useEffect } from "react";
 import CategoryPage from "./pages/category/CategoryPage";
@@ -15,6 +15,8 @@ function App() {
   const params = new URLSearchParams(window.location.search);
   const email = params.get("email");
 
+  const location = useLocation();
+
   useEffect(() => {
     if (email) {
       setUser(email);
@@ -25,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      {location.pathname === "/login" ? <div></div> : <Navbar user={user} />}
+      {location.pathname !== "/login" ? <Navbar user={user} /> : null}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
