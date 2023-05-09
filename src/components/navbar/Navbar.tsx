@@ -1,5 +1,30 @@
 import "./Navbar.css";
-const Navbar = () => {
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { UserInterface } from "../../types/Types";
+import axios from "axios";
+
+import useAuthStore from "../../zustand/AuthStore";
+import { Link } from "react-router-dom";
+
+const Navbar = ({ user }: any) => {
+  const { data } = useQuery<UserInterface>({
+    queryKey: ["getUserByEmailApp"],
+    queryFn: () =>
+      axios
+        .get(`${import.meta.env.VITE_APP_API_URL}/api/user/${user}`)
+        .then((res) => res.data),
+  });
+
+  const clearUser = useAuthStore((state) => state.clearUser);
+
+  useEffect(() => {
+    if (data?.userRole === "ROLE_USER") {
+      alert("you are not allowed to login");
+    }
+    console.log("navbar");
+  });
+
   return (
     <nav className="navbar">
       <div className="navbar-brand">Combra Admin</div>
@@ -20,10 +45,25 @@ const Navbar = () => {
           Users
         </a>
         <section className="navbar-profile">
-          <span>Admin Name</span>
-          <button className="navbar-logoutbtn">
-            <span className="navbar-link">Logout</span>
-          </button>
+          {user && data?.userRole === "ROLE_ADMIN" ? (
+            <>
+              <span>{data?.name}</span>
+              <button className="navbar-logoutbtn">
+                <span className="navbar-link" onClick={clearUser}>
+                  Logout
+                </span>
+              </button>
+            </>
+          ) : (
+            <Link to="/login">
+              <button
+                className="navbar-logoutbtn"
+                style={{ fontWeight: "bold" }}
+              >
+                <span className="navbar-link">Login</span>
+              </button>
+            </Link>
+          )}
         </section>
       </div>
     </nav>

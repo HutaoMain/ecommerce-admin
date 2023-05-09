@@ -81,6 +81,7 @@ const AddProduct = ({ toggleAddProduct }: any) => {
       <button className="addcategory-closebtn" onClick={toggleAddProduct}>
         x
       </button>
+
       <div className="addcategory-itemlist">
         <img
           src={
@@ -104,81 +105,83 @@ const AddProduct = ({ toggleAddProduct }: any) => {
         </label>
       </div>
 
-      <div className="addcategory-itemlist">
-        <input
-          type="text"
-          placeholder="Product Name"
-          className="addcategory-input"
-          onChange={(e) => {
-            setProductInfo((data) => ({
-              ...data,
-              productName: e.target.value,
-            }));
-          }}
-        />
-      </div>
+      <div className="addproduct-container">
+        <div className="addcategory-itemlist">
+          <input
+            type="text"
+            placeholder="Product Name"
+            className="addcategory-input"
+            onChange={(e) => {
+              setProductInfo((data) => ({
+                ...data,
+                productName: e.target.value,
+              }));
+            }}
+          />
+        </div>
 
-      <div className="addcategory-itemlist">
-        <input
-          type="text"
-          placeholder="description"
-          className="addcategory-input"
-          onChange={(e) => {
-            setProductInfo((data) => ({
-              ...data,
-              description: e.target.value,
-            }));
-          }}
-        />
-      </div>
+        <div className="addcategory-itemlist">
+          <input
+            type="text"
+            placeholder="description"
+            className="addcategory-input"
+            onChange={(e) => {
+              setProductInfo((data) => ({
+                ...data,
+                description: e.target.value,
+              }));
+            }}
+          />
+        </div>
 
-      <div className="addcategory-itemlist">
-        <input
-          type="number"
-          placeholder="Price"
-          className="addcategory-input"
-          onChange={(e) => {
-            setProductInfo((data) => ({
-              ...data,
-              price: parseInt(e.target.value),
-            }));
-          }}
-        />
-      </div>
+        <div className="addcategory-itemlist">
+          <input
+            type="number"
+            placeholder="Price"
+            className="addcategory-input"
+            onChange={(e) => {
+              setProductInfo((data) => ({
+                ...data,
+                price: parseInt(e.target.value),
+              }));
+            }}
+          />
+        </div>
 
-      <div className="addcategory-itemlist">
-        <input
-          type="number"
-          placeholder="Quantity"
-          className="addcategory-input"
-          onChange={(e) => {
-            setProductInfo((data) => ({
-              ...data,
-              quantity: parseInt(e.target.value),
-            }));
-          }}
-        />
-      </div>
+        <div className="addcategory-itemlist">
+          <input
+            type="number"
+            placeholder="Quantity"
+            className="addcategory-input"
+            onChange={(e) => {
+              setProductInfo((data) => ({
+                ...data,
+                quantity: parseInt(e.target.value),
+              }));
+            }}
+          />
+        </div>
 
-      <div className="addcategory-itemlist">
-        <select
-          onChange={(e) => {
-            const selectedCategoryId = e.target.value;
-            const selectedCategory = data?.find(
-              (item) => item.id === selectedCategoryId
-            );
-            setProductInfo((data) => ({
-              ...data,
-              categoryId: selectedCategory?.id || null,
-            }));
-          }}
-        >
-          {data?.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.categoryName}
-            </option>
-          ))}
-        </select>
+        <div className="addcategory-itemlist">
+          <select
+            onChange={(e) => {
+              const selectedCategoryId = e.target.value;
+              const selectedCategory = data?.find(
+                (item) => item.id === selectedCategoryId
+              );
+              setProductInfo((data) => ({
+                ...data,
+                categoryId: selectedCategory?.id || null,
+              }));
+            }}
+          >
+            {data?.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.categoryName}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <button className="addcategory-submitbtn" onClick={handleAddProduct}>

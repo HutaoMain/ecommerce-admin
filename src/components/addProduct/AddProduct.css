@@ -1,0 +1,7 @@
+.addproduct-container {
+  display: grid;
+  grid-template-columns: repeat(2, 0.5fr);
+
+  align-content: center;
+  gap: 5px 10px;
+}
