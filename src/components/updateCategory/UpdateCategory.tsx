@@ -3,6 +3,7 @@ import { MdOutlineDownloadDone, MdOutlineUpload } from "react-icons/md";
 import { categoryInterface } from "../../types/Types";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface updateCategoryInterface {
   toggleModalUpdateCategory: any;
@@ -13,6 +14,14 @@ const UpdateCategory = ({
   toggleModalUpdateCategory,
   paramsId,
 }: updateCategoryInterface) => {
+  const { data } = useQuery<categoryInterface>({
+    queryKey: ["getCategoryByIdThenUpdate"],
+    queryFn: () =>
+      axios
+        .get(`${import.meta.env.VITE_APP_API_URL}/api/category/${paramsId}`)
+        .then((res) => res.data),
+  });
+
   const [ImageFile, setImageFile] = useState<string>("");
   const [categoryInfo, setCategoryInfo] = useState<categoryInterface>({
     id: "",
@@ -21,6 +30,16 @@ const UpdateCategory = ({
   });
 
   const navigate = useNavigate();
+
+  console.log(categoryInfo);
+
+  // useEffect(() => {
+  //   setCategoryInfo({
+  //     id: data?.id || "",
+  //     categoryName: data?.categoryName || "",
+  //     imageUrl: data?.imageUrl || "",
+  //   });
+  // }, [paramsId, data]);
 
   const fileTypeChecking = (e: any) => {
     var fileInput = document.getElementById("file-upload") as HTMLInputElement;
@@ -51,14 +70,14 @@ const UpdateCategory = ({
       );
       const { url } = uploadRes.data;
 
-      await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/category/create`,
+      await axios.put(
+        `${import.meta.env.VITE_APP_API_URL}/api/category/update/${paramsId}`,
         {
           categoryName: categoryInfo.categoryName,
           imageUrl: url,
         }
       );
-      navigate("/category");
+      navigate("/categories");
       console.log("success");
     } catch (err) {}
   };
@@ -73,14 +92,13 @@ const UpdateCategory = ({
       </button>
 
       <div className="addcategory-itemlist">
-        <span>{paramsId}</span>
         <img
           src={
             ImageFile
               ? URL.createObjectURL(
                   new Blob([ImageFile], { type: "image/jpeg" })
                 )
-              : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              : data?.imageUrl
           }
           alt="AddImage"
           className="addcategory-img"
@@ -101,6 +119,7 @@ const UpdateCategory = ({
           type="text"
           placeholder="Category Name"
           className="addcategory-input"
+          value={data?.categoryName}
           onChange={(e) => {
             setCategoryInfo((data) => ({
               ...data,
