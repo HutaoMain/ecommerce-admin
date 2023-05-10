@@ -11,7 +11,11 @@ export interface productInterface {
   description: string;
   price: number;
   quantity: number;
-  categoryId: any;
+  category: {
+    id: string;
+    categoryName: string;
+    imageUrl: string;
+  };
   sold: number;
 }
 

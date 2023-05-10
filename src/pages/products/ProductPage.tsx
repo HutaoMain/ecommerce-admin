@@ -4,12 +4,12 @@ import Modal from "react-modal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { productInterface } from "../../types/Types";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Confirmation from "../../components/confirmationModal/Confirmation";
 import { BiCategory } from "react-icons/bi";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import AddProduct from "../../components/addProduct/AddProduct";
+import UpdateProduct from "../../components/updateProduct/UpdateProduct";
 
 const customStyles = {
   content: {
@@ -44,6 +44,8 @@ const ProductPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [paramsId, setParamsId] = useState<string>("");
   const [isOpenAddProduct, setIsOpenAddProduct] = useState<boolean>(false);
+  const [isOpenUpdateProduct, setIsOpenUpdateProduct] =
+    useState<boolean>(false);
 
   const { data } = useQuery<productInterface[]>({
     queryKey: ["productList"],
@@ -60,6 +62,11 @@ const ProductPage = () => {
   const toggleModalProduct = (id: any) => {
     setParamsId(id);
     setIsOpenModal(!isOpenModal);
+  };
+
+  const toggleModalUpdateProduct = (id: any) => {
+    setParamsId(id);
+    setIsOpenUpdateProduct(!isOpenUpdateProduct);
   };
 
   const handleDelete = async (id: any) => {
@@ -143,14 +150,14 @@ const ProductPage = () => {
       renderCell: (params) => {
         return (
           <div>
-            <Link to={`${params.row.id}`} style={{ textDecoration: "none" }}>
-              <button
-                className="category-actionbtn"
-                style={{ backgroundColor: "blue" }}
-              >
-                Update
-              </button>
-            </Link>
+            <button
+              className="category-actionbtn"
+              style={{ backgroundColor: "blue" }}
+              onClick={() => toggleModalUpdateProduct(params.row.id)}
+            >
+              Update
+            </button>
+
             <button
               className="category-actionbtn"
               style={{ backgroundColor: "red" }}
@@ -198,6 +205,16 @@ const ProductPage = () => {
         style={customStyleAddProduct}
       >
         <AddProduct toggleAddProduct={toggleAddProduct} />
+      </Modal>
+      <Modal
+        isOpen={isOpenUpdateProduct}
+        onRequestClose={toggleModalUpdateProduct}
+        style={customStyleAddProduct}
+      >
+        <UpdateProduct
+          toggleModalUpdateProduct={toggleModalUpdateProduct}
+          paramsId={paramsId}
+        />
       </Modal>
     </div>
   );

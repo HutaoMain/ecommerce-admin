@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineDownloadDone, MdOutlineUpload } from "react-icons/md";
 import { categoryInterface } from "../../types/Types";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 interface updateCategoryInterface {
   toggleModalUpdateCategory: any;
@@ -16,30 +16,28 @@ const UpdateCategory = ({
 }: updateCategoryInterface) => {
   const { data } = useQuery<categoryInterface>({
     queryKey: ["getCategoryByIdThenUpdate"],
-    queryFn: () =>
-      axios
+    queryFn: async () =>
+      await axios
         .get(`${import.meta.env.VITE_APP_API_URL}/api/category/${paramsId}`)
         .then((res) => res.data),
   });
 
-  const [ImageFile, setImageFile] = useState<string>("");
+  const [imageFile, setImageFile] = useState<string>("");
   const [categoryInfo, setCategoryInfo] = useState<categoryInterface>({
     id: "",
     categoryName: "",
     imageUrl: "",
   });
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    setCategoryInfo({
+      id: data?.id || "",
+      categoryName: data?.categoryName || "",
+      imageUrl: data?.imageUrl || "",
+    });
+  }, [paramsId, data]);
 
-  console.log(categoryInfo);
-
-  // useEffect(() => {
-  //   setCategoryInfo({
-  //     id: data?.id || "",
-  //     categoryName: data?.categoryName || "",
-  //     imageUrl: data?.imageUrl || "",
-  //   });
-  // }, [paramsId, data]);
+  console.log("category info", categoryInfo);
 
   const fileTypeChecking = (e: any) => {
     var fileInput = document.getElementById("file-upload") as HTMLInputElement;
@@ -61,24 +59,44 @@ const UpdateCategory = ({
   const handleAddCat = async (e: any) => {
     e.preventDefault();
     try {
-      const data = new FormData();
-      data.append("file", ImageFile);
-      data.append("upload_preset", "upload");
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/alialcantara/image/upload",
-        data
-      );
-      const { url } = uploadRes.data;
+      if (imageFile !== "") {
+        const data = new FormData();
+        data.append("file", imageFile);
+        data.append("upload_preset", "upload");
+        const uploadRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/alialcantara/image/upload",
+          data
+        );
+        const { url } = uploadRes.data;
 
-      await axios.put(
-        `${import.meta.env.VITE_APP_API_URL}/api/category/update/${paramsId}`,
-        {
-          categoryName: categoryInfo.categoryName,
-          imageUrl: url,
-        }
-      );
-      navigate("/categories");
+        await axios.put(
+          `${import.meta.env.VITE_APP_API_URL}/api/category/update/${paramsId}`,
+          {
+            categoryName: categoryInfo.categoryName,
+            imageUrl: url,
+          }
+        );
+      } else {
+        await axios.put(
+          `${import.meta.env.VITE_APP_API_URL}/api/category/update/${paramsId}`,
+          {
+            categoryName: categoryInfo.categoryName,
+            imageUrl: data?.imageUrl,
+          }
+        );
+      }
       console.log("success");
+      toast(" Successfully uploaded the receipt!", {
+        type: "success",
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => window.location.reload(), 2000);
     } catch (err) {}
   };
 
@@ -94,11 +112,11 @@ const UpdateCategory = ({
       <div className="addcategory-itemlist">
         <img
           src={
-            ImageFile
+            imageFile
               ? URL.createObjectURL(
-                  new Blob([ImageFile], { type: "image/jpeg" })
+                  new Blob([imageFile], { type: "image/jpeg" })
                 )
-              : data?.imageUrl
+              : categoryInfo?.imageUrl
           }
           alt="AddImage"
           className="addcategory-img"
@@ -117,9 +135,9 @@ const UpdateCategory = ({
       <div className="addcategory-itemlist">
         <input
           type="text"
-          placeholder="Category Name"
+          placeholder="Category name"
           className="addcategory-input"
-          value={data?.categoryName}
+          value={categoryInfo?.categoryName}
           onChange={(e) => {
             setCategoryInfo((data) => ({
               ...data,

@@ -1,12 +1,13 @@
 import "./App.css";
-import Navbar from "./components/navbar/Navbar";
+import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-
 import { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 import CategoryPage from "./pages/category/CategoryPage";
 import ProductPage from "./pages/products/ProductPage";
 import useAuthStore from "./zustand/AuthStore";
 import Login from "./pages/login/Login";
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -39,6 +40,7 @@ function App() {
           element={user ? <ProductPage /> : <Navigate to="/login" />}
         />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }
