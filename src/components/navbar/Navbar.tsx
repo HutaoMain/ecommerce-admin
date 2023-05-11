@@ -38,7 +38,7 @@ const Navbar = ({ user }: any) => {
         <a href="/products" className="navbar-link">
           Products
         </a>
-        <a href="/contact" className="navbar-link">
+        <a href="/orders" className="navbar-link">
           Orders
         </a>
         <a href="/contact" className="navbar-link">

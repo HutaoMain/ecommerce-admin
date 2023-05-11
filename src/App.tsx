@@ -8,6 +8,8 @@ import ProductPage from "./pages/products/ProductPage";
 import useAuthStore from "./zustand/AuthStore";
 import Login from "./pages/login/Login";
 import Navbar from "./components/navbar/Navbar";
+import Orders from "./pages/orders/Orders";
+import ViewOrder from "./components/viewOrderList/ViewOrder";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -38,6 +40,14 @@ function App() {
         <Route
           path="/products"
           element={user ? <ProductPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/orders"
+          element={user ? <Orders /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/orders/:id"
+          element={user ? <ViewOrder /> : <Navigate to="/login" />}
         />
       </Routes>
       <ToastContainer />

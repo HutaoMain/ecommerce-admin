@@ -32,3 +32,24 @@ export interface UserInterface {
   city: string;
   contactNumber: number;
 }
+
+export interface orderInterface {
+  id: string;
+  email: string;
+  userFullName: string;
+  totalPrice: string;
+  orderList: string;
+  status: string;
+  paymentMethod: string;
+  receipt: string;
+}
+
+export interface orderListInterface {
+  id: string;
+  imageUrl: string;
+  description: string;
+  price: number;
+  productName: string;
+  quantity: number;
+  sold: number;
+}
