@@ -86,7 +86,7 @@ const UpdateCategory = ({
         );
       }
       console.log("success");
-      toast(" Successfully uploaded the receipt!", {
+      toast(" Successfully updated the category!", {
         type: "success",
         position: "top-center",
         autoClose: 2000,

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { MdOutlineDownloadDone, MdOutlineUpload } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { categoryInterface, productInterface } from "../../types/Types";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 interface updateProductInterface {
   toggleModalUpdateProduct: any;
@@ -18,6 +18,18 @@ const UpdateProduct = ({
   const [categoryDropDown, setCategoryDropDown] = useState<categoryInterface[]>(
     []
   );
+
+  const { data } = useQuery<productInterface>({
+    queryKey: ["getProductByIdThenUpdate"],
+    queryFn: async () =>
+      await axios
+        .get(
+          `${
+            import.meta.env.VITE_APP_API_URL
+          }/api/product/specificProduct/${paramsId}`
+        )
+        .then((res) => res.data),
+  });
 
   const [productInfo, setProductInfo] = useState<productInterface>({
     id: "",
@@ -34,20 +46,6 @@ const UpdateProduct = ({
     sold: 0,
   });
 
-  const navigate = useNavigate();
-
-  const { data } = useQuery<productInterface>({
-    queryKey: ["getProductByIdThenUpdate"],
-    queryFn: () =>
-      axios
-        .get(
-          `${
-            import.meta.env.VITE_APP_API_URL
-          }/api/product/specificProduct/${paramsId}`
-        )
-        .then((res) => res.data),
-  });
-
   useEffect(() => {
     setProductInfo({
       id: data?.id || "",
@@ -56,14 +54,16 @@ const UpdateProduct = ({
       description: data?.description || "",
       price: data?.price || 0,
       quantity: data?.quantity || 0,
-      category: {
-        id: data?.category.id || "",
-        imageUrl: data?.category.imageUrl || "",
-        categoryName: data?.category.categoryName || "",
+      category: data?.category || {
+        id: "",
+        categoryName: "",
+        imageUrl: "",
       },
       sold: 0,
     });
   }, [data, paramsId]);
+
+  console.log(productInfo.category.id);
 
   useEffect(() => {
     const fetch = async () => {
@@ -105,7 +105,7 @@ const UpdateProduct = ({
         );
         const { url } = uploadRes.data;
 
-        await axios.post(
+        await axios.put(
           `${import.meta.env.VITE_APP_API_URL}/api/product/update/${paramsId}`,
           {
             productName: productInfo.productName,
@@ -113,29 +113,36 @@ const UpdateProduct = ({
             description: productInfo.description,
             price: productInfo.price,
             quantity: productInfo.quantity,
-            categoryId: productInfo.category.id,
+            category: productInfo.category,
           }
         );
       } else {
-        await axios.post(
+        await axios.put(
           `${import.meta.env.VITE_APP_API_URL}/api/product/update/${paramsId}`,
           {
             productName: productInfo.productName,
-            imageUrl: data,
+            imageUrl: data?.imageUrl,
             description: productInfo.description,
             price: productInfo.price,
             quantity: productInfo.quantity,
-            categoryId: productInfo.category.id,
+            category: productInfo.category,
           }
         );
       }
 
-      navigate("/products");
-      console.log("success");
+      toast(" Successfully updated the product!", {
+        type: "success",
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => window.location.reload(), 2000);
     } catch (err) {}
   };
-
-  //   console.log(productInfo);
 
   return (
     <div className="addcategory">
@@ -153,7 +160,7 @@ const UpdateProduct = ({
               ? URL.createObjectURL(
                   new Blob([imageFile], { type: "image/jpeg" })
                 )
-              : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              : productInfo.imageUrl
           }
           alt="AddImage"
           className="addcategory-img"
