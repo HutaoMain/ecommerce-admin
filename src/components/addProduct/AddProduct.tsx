@@ -15,7 +15,11 @@ const AddProduct = ({ toggleAddProduct }: any) => {
     description: "",
     price: 0,
     quantity: 0,
-    categoryId: "",
+    category: {
+      id: "",
+      categoryName: "",
+      imageUrl: "",
+    },
     sold: 0,
   });
 
@@ -66,7 +70,7 @@ const AddProduct = ({ toggleAddProduct }: any) => {
           description: productInfo.description,
           price: productInfo.price,
           quantity: productInfo.quantity,
-          categoryId: productInfo.categoryId,
+          categoryId: productInfo.category.id,
         }
       );
       navigate("/products");

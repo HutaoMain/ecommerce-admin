@@ -41,7 +41,7 @@ const Navbar = ({ user }: any) => {
         <a href="/orders" className="navbar-link">
           Orders
         </a>
-        <a href="/contact" className="navbar-link">
+        <a href="/users" className="navbar-link">
           Users
         </a>
         <section className="navbar-profile">

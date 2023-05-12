@@ -10,6 +10,7 @@ import Login from "./pages/login/Login";
 import Navbar from "./components/navbar/Navbar";
 import Orders from "./pages/orders/Orders";
 import ViewOrder from "./components/viewOrderList/ViewOrder";
+import UserPage from "./pages/userPage/UserPage";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -48,6 +49,10 @@ function App() {
         <Route
           path="/orders/:id"
           element={user ? <ViewOrder /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/users"
+          element={user ? <UserPage /> : <Navigate to="/login" />}
         />
       </Routes>
       <ToastContainer />

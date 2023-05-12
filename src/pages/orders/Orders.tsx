@@ -22,7 +22,6 @@ const Orders = () => {
       align: "center",
       width: 300,
     },
-
     {
       field: "status",
       headerName: "Status",
