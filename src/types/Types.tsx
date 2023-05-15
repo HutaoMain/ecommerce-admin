@@ -53,3 +53,8 @@ export interface orderListInterface {
   quantity: number;
   sold: number;
 }
+
+export interface totalPricePerMonthInterface {
+  totalPrice: number;
+  orderDate: string;
+}

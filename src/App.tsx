@@ -11,6 +11,7 @@ import Navbar from "./components/navbar/Navbar";
 import Orders from "./pages/orders/Orders";
 import ViewOrder from "./components/viewOrderList/ViewOrder";
 import UserPage from "./pages/userPage/UserPage";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -34,6 +35,7 @@ function App() {
       {location.pathname !== "/login" ? <Navbar user={user} /> : null}
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Dashboard />} />
         <Route
           path="/categories"
           element={user ? <CategoryPage /> : <Navigate to="/login" />}

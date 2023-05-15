@@ -1,0 +1,19 @@
+.boxes {
+  padding: 20px;
+  width: 200px;
+  height: 200px;
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  border-radius: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 50px;
+}
+
+.boxes-data {
+  margin-top: 10px;
+  font-size: 50px;
+  font-weight: 700;
+}
