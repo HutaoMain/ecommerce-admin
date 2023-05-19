@@ -1,0 +1,9 @@
+.order-actionbtn {
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #89cb45;
+  color: black;
+  cursor: pointer;
+  margin: 10px 0;
+}

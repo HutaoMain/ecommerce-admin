@@ -12,6 +12,9 @@ import Orders from "./pages/orders/Orders";
 import ViewOrder from "./components/viewOrderList/ViewOrder";
 import UserPage from "./pages/userPage/UserPage";
 import Dashboard from "./pages/dashboard/Dashboard";
+import { UserInterface } from "./types/Types";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -21,6 +24,14 @@ function App() {
   const email = params.get("email");
 
   const location = useLocation();
+
+  const { data } = useQuery<UserInterface>({
+    queryKey: ["appJs"],
+    queryFn: () =>
+      axios
+        .get(`${import.meta.env.VITE_APP_API_URL}/api/user/${user}`)
+        .then((res) => res.data),
+  });
 
   useEffect(() => {
     if (email) {
@@ -32,32 +43,40 @@ function App() {
 
   return (
     <div className="App">
-      {location.pathname !== "/login" ? <Navbar user={user} /> : null}
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Dashboard />} />
-        <Route
-          path="/categories"
-          element={user ? <CategoryPage /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/products"
-          element={user ? <ProductPage /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/orders"
-          element={user ? <Orders /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/orders/:id"
-          element={user ? <ViewOrder /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/users"
-          element={user ? <UserPage /> : <Navigate to="/login" />}
-        />
-      </Routes>
-      <ToastContainer />
+      {user ? (
+        <>
+          {location.pathname !== "/login" ? <Navbar user={user} /> : null}
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route
+              path="/categories"
+              element={user ? <CategoryPage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/products"
+              element={user ? <ProductPage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/orders"
+              element={user ? <Orders /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/orders/:id"
+              element={user ? <ViewOrder /> : <Navigate to="/login" />}
+            />
+            {data?.userRole === "ROLE_ADMIN" && (
+              <Route
+                path="/users"
+                element={user ? <UserPage /> : <Navigate to="/login" />}
+              />
+            )}
+          </Routes>
+          <ToastContainer />
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

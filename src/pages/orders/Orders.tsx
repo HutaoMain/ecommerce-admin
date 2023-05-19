@@ -102,12 +102,7 @@ const Orders = () => {
         return (
           <div>
             <Link to={`/orders/${params.row.id}`}>
-              <button
-                className="order-actionbtn"
-                style={{ backgroundColor: "green" }}
-              >
-                View Products Ordered
-              </button>
+              <button className="order-actionbtn">View Products Ordered</button>
             </Link>
           </div>
         );

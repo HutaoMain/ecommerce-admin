@@ -41,11 +41,15 @@ const Navbar = ({ user }: any) => {
         <a href="/orders" className="navbar-link">
           Orders
         </a>
-        <a href="/users" className="navbar-link">
-          Users
-        </a>
+        {data?.userRole === "ROLE_ADMIN" && (
+          <a href="/users" className="navbar-link">
+            Users
+          </a>
+        )}
+
         <section className="navbar-profile">
-          {user && data?.userRole === "ROLE_ADMIN" ? (
+          {(user && data?.userRole === "ROLE_ADMIN") ||
+          data?.userRole === "ROLE_STAFF" ? (
             <>
               <span>{data?.name}</span>
               <button className="navbar-logoutbtn">

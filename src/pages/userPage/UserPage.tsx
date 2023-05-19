@@ -5,7 +5,7 @@ import { UserInterface } from "../../types/Types";
 
 const UserPage = () => {
   const { data } = useQuery<UserInterface[]>({
-    queryKey: ["orderListOrderPage"],
+    queryKey: ["userListPage"],
     queryFn: () =>
       axios
         .get(`${import.meta.env.VITE_APP_API_URL}/api/user/list`)
