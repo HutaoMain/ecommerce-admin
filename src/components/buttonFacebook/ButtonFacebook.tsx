@@ -3,7 +3,7 @@ import { AiFillFacebook } from "react-icons/ai";
 const ButtonFacebook = () => {
   const handleFacebookLogin = () => {
     window.open(
-      `${import.meta.env.VITE_APP_API_URL}/oauth2/authorization/google`,
+      `${import.meta.env.VITE_APP_API_URL}/admin/oauth2/authorization/google`,
       "_self"
     );
   };
